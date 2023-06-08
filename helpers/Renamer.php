@@ -37,7 +37,7 @@ class Renamer
                     $relativePath = $iterator->getSubPathname();
 
                     // Replace "plugin_name" with $pluginName in the file name
-                    $newFileName = str_replace('plugin_name', $$newPluginName, $relativePath);
+                    $newFileName = str_replace('plugin_name', $newPluginName, $relativePath);
                     
                     array_push($files, $newFileName);
 
@@ -76,7 +76,7 @@ class Renamer
     {
         // Create a new ZipArchive instance
         $zip = new ZipArchive();
-        $zipFileName = $newPluginName + '.zip';
+        $zipFileName = $newPluginName . '.zip';
         
         if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
           
