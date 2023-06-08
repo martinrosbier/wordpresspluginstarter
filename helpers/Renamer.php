@@ -7,27 +7,29 @@ require_once 'config/Constants.php';
  */
 
 /**
- * Description of FileRenamer
- *
+ * Description of Renamer
+ * Classes to update the boilerplat to the new name and slug, and zip the new files to be able to download
  * @author martinrosbier
  */
-class FileRenamer {
-    
+
+class Renamer
+{
+
     private $pluginName;
-   
-    public function __construct($pluginName) {
+
+    public function __construct($pluginName)
+    {
         $this->pluginName = $pluginName;
     }
-    
-    public function renameFilesAndCreateZip() {
-        // Create a new ZipArchive instance    
-        $zip = new ZipArchive();
-        $zipFileName = $this->pluginName+'.zip';
 
-        if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+    public function renameFiles($newPluginName = $this->pluginName )
+    {
             // Create an iterator to iterate through the files and subdirectories
             $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(DEFAULT_DIR));
-
+            
+            // Create an array to zip files later
+            $files = array();
+            
             // Iterate through each item
             foreach ($iterator as $item) {
                 if ($item->isFile()) {
@@ -35,7 +37,9 @@ class FileRenamer {
                     $relativePath = $iterator->getSubPathname();
 
                     // Replace "plugin_name" with $pluginName in the file name
-                    $newFileName = str_replace('plugin_name', $this->pluginName, $relativePath);
+                    $newFileName = str_replace('plugin_name', $$newPluginName, $relativePath);
+                    
+                    array_push($files, $newFileName);
 
                     // Create the directory in the destination folder if it doesn't exist
                     $destFilePath =  '/' . dirname($newFileName);
@@ -44,16 +48,49 @@ class FileRenamer {
                     }
 
                     // Copy the file to the destination directory with the modified name
-                    copy(DEFAULT_DIR . '/' . $relativePath, '/' . $newFileName);
-
+                    try {
+                        copy(DEFAULT_DIR . '/' . $relativePath, '/' . $newFileName);
+                    } catch (Exception $e) {
+                        echo $e;
+                    }
+                }
+                
+            }
+            
+            return $files;
+    }
+    
+    public function renameContent($filePath, $newPluginName = $this->pluginName )
+    {
+        // Read the file content
+        $content = file_get_contents($filePath);
+        
+        // Modify the content as needed
+        $modifiedContent = str_replace(DEFAULT_NAME, $newPluginName, $content);
+        
+        // Write the modified content back to the file
+        file_put_contents($filePath, $modifiedContent);
+    }
+    
+    public function CreateZip(array $files, $newPluginName = $this->pluginName )
+    {
+        // Create a new ZipArchive instance
+        $zip = new ZipArchive();
+        $zipFileName = $newPluginName + '.zip';
+        
+        if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+          
+            foreach ($files as $item) {
+                if ($item->isFile()) {
+         
                     // Add the copied file to the zip archive
                     $zip->addFile($newFileName, $newFileName);
                 }
             }
-
+            
             // Save and close the zip archive
             $zip->close();
-
+            
             echo 'Files renamed and copied to the destination directory, and zip file created successfully.';
         } else {
             echo 'Failed to create the zip file.';

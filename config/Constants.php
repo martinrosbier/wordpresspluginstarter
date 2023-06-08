@@ -5,4 +5,5 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-define('DEFAULT_DIR', 'src/plugin-name');
+define('DEFAULT_NAME', 'plugin-name');
+define('DEFAULT_DIR', 'src/'+DEFAULT_NAME);
