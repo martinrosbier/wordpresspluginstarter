@@ -8,7 +8,7 @@ require_once 'config/Constants.php';
 
 /**
  * Description of Renamer
- * Classes to update the boilerplat to the new name and slug, and zip the new files to be able to download
+ * Classes to update the boilerplate to the new name and slug, and zip the new files to be able to download
  * @author martinrosbier
  */
 
@@ -22,9 +22,10 @@ class Renamer
         $this->pluginName = $pluginName;
     }
 
-    public function renameFiles($newPluginName = $this->pluginName )
+    public function renameFiles()
     {
-            // Create an iterator to iterate through the files and subdirectories
+
+        // Create an iterator to iterate through the files and subdirectories
             $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(DEFAULT_DIR));
             
             // Create an array to zip files later
@@ -37,7 +38,7 @@ class Renamer
                     $relativePath = $iterator->getSubPathname();
 
                     // Replace "plugin_name" with $pluginName in the file name
-                    $newFileName = str_replace('plugin_name', $newPluginName, $relativePath);
+                    $newFileName = str_replace('plugin_name', $this->pluginName, $relativePath);
                     
                     array_push($files, $newFileName);
 
@@ -60,23 +61,23 @@ class Renamer
             return $files;
     }
     
-    public function renameContent($filePath, $newPluginName = $this->pluginName )
+    public function renameContent($filePath)
     {
         // Read the file content
         $content = file_get_contents($filePath);
         
         // Modify the content as needed
-        $modifiedContent = str_replace(DEFAULT_NAME, $newPluginName, $content);
+        $modifiedContent = str_replace(DEFAULT_NAME, $this->pluginName, $content);
         
         // Write the modified content back to the file
         file_put_contents($filePath, $modifiedContent);
     }
     
-    public function CreateZip(array $files, $newPluginName = $this->pluginName )
+    public function CreateZip(array $files)
     {
         // Create a new ZipArchive instance
         $zip = new ZipArchive();
-        $zipFileName = $newPluginName . '.zip';
+        $zipFileName = $this->pluginName . '.zip';
         
         if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
           
@@ -84,7 +85,7 @@ class Renamer
                 if ($item->isFile()) {
          
                     // Add the copied file to the zip archive
-                    $zip->addFile($newFileName, $newFileName);
+                    $zip->addFile($item, $item);
                 }
             }
             
