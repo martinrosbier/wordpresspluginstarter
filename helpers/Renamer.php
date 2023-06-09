@@ -1,5 +1,5 @@
 <?php
-require_once 'config/Constants.php';
+namespace helpers;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -73,7 +73,7 @@ class Renamer
         file_put_contents($filePath, $modifiedContent);
     }
     
-    public function CreateZip(array $files)
+    public function createZip(array $files)
     {
         // Create a new ZipArchive instance
         $zip = new ZipArchive();

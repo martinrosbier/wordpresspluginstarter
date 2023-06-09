@@ -1,0 +1,17 @@
+{
+    "name": "WPPluginStarter",
+    "description": "Description of project WordPress Plugin Starter.",
+    "authors": [
+        {
+            "name": "martinrosbier",
+            "email": "martinrosbier@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-4": {
+            "config":"./config",
+            "helpers":"./helpers"
+        }
+    }
+}
