@@ -1,5 +1,5 @@
 {
-    "name": "WPPluginStarter",
+    "name": "rosbier/wp-plugin-starter",
     "description": "Description of project WordPress Plugin Starter.",
     "authors": [
         {
@@ -8,10 +8,10 @@
         }
     ],
     "require": {},
-    "autoload":{
+    "autoload": {
         "psr-4": {
-            "config":"./config",
-            "helpers":"./helpers"
+            "config\\": "./config/",
+            "helpers\\": "./helpers/"
         }
     }
 }
