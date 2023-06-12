@@ -7,11 +7,13 @@
             "email": "martinrosbier@gmail.com"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
             "config\\": "./config/",
             "helpers\\": "./helpers/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
 }
