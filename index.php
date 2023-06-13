@@ -9,7 +9,7 @@ $renamer = new Renamer('test');
 $files = $renamer->renameFiles();
 
 foreach ($files as $filePath) {
-    $renamer->renameContent($filePath);
+   $renamer->renameContent($filePath);
 }
 
 $renamer->createZip($files);

@@ -38,20 +38,21 @@ class Renamer {
                 // Get the relative path of the file
                 $relativePath = $iterator->getSubPathname();
 
-                // Replace "plugin_name" with $pluginName in the file name
-                $newFileName = str_replace('plugin_name', $this->pluginName, $relativePath);
-
+                // Replace "plugin_name" with $pluginName
+                $newFileName = str_replace($this->defaultName, $this->pluginName, $this->defaultDir)."/".str_replace($this->defaultName, $this->pluginName, $relativePath);
+                                
                 array_push($files, $newFileName);
 
                 // Create the directory in the destination folder if it doesn't exist
                 $destFilePath = '/' . dirname($newFileName);
+                
                 if (!is_dir($destFilePath)) {
                     mkdir($destFilePath, 0777, true);
                 }
 
                 // Copy the file to the destination directory with the modified name
                 try {
-                    copy($this->defaultDir . '/' . $relativePath, '/' . $newFileName);
+                    copy($this->defaultDir . '/' . $relativePath,  $newFileName);
                 } catch (Exception $e) {
                     echo $e;
                 }
