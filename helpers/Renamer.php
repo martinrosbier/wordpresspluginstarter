@@ -39,20 +39,25 @@ class Renamer {
                 $relativePath = $iterator->getSubPathname();
 
                 // Replace "plugin_name" with $pluginName
-                $newFileName = str_replace($this->defaultName, $this->pluginName, $this->defaultDir)."/".str_replace($this->defaultName, $this->pluginName, $relativePath);
-                                
+                $newFileName = str_replace($this->defaultName, $this->pluginName, $this->defaultDir) . "/" . str_replace($this->defaultName, $this->pluginName, str_replace("\\", "/", $relativePath));
+
                 array_push($files, $newFileName);
 
                 // Create the directory in the destination folder if it doesn't exist
-                $destFilePath = '/' . dirname($newFileName);
-                
+                $destFilePath = './' . dirname($newFileName);
+               
                 if (!is_dir($destFilePath)) {
                     mkdir($destFilePath, 0777, true);
                 }
 
                 // Copy the file to the destination directory with the modified name
                 try {
-                    copy($this->defaultDir . '/' . $relativePath,  $newFileName);
+                    $filePath = $this->defaultDir . '/' . $relativePath;
+                    if (file_exists($filePath)) {
+                        copy($filePath, $newFileName);
+                    } else {
+                        echo "File does not exist.";
+                    }
                 } catch (Exception $e) {
                     echo $e;
                 }
@@ -82,7 +87,6 @@ class Renamer {
 
             foreach ($files as $item) {
                 if ($item->isFile()) {
-
                     // Add the copied file to the zip archive
                     $zip->addFile($item, $item);
                 }
