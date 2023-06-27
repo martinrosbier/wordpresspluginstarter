@@ -21,6 +21,9 @@ class Renamer {
     public function __construct($pluginName) {
         $this->pluginName = $pluginName;
         $this->defaultName = Constants::DEFAULT_NAME;
+        $this->defaultName_ = Constants::DEFAULT_NAME_;
+        $this->defaultNamePackage = Constants::DEFAULT_NAME_PACKAGE;
+
         $this->defaultDir = Constants::DEFAULT_DIR;
     }
 
@@ -29,7 +32,7 @@ class Renamer {
         // Create an iterator to iterate through the files and subdirectories
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->defaultDir));
 
-        // Create an array to zip files later
+        // Create an array to store files for later zipping
         $files = array();
 
         // Iterate through each item
@@ -39,13 +42,13 @@ class Renamer {
                 $relativePath = $iterator->getSubPathname();
 
                 // Replace "plugin_name" with $pluginName
-                $newFileName = str_replace($this->defaultName, $this->pluginName, $this->defaultDir) . "/" . str_replace($this->defaultName, $this->pluginName, str_replace("\\", "/", $relativePath));
+                $newFileName = str_replace("src/" . $this->defaultName, $this->pluginName, $this->defaultDir) . "/" . str_replace($this->defaultName, $this->pluginName, str_replace("\\", "/", $relativePath));
 
                 array_push($files, $newFileName);
 
                 // Create the directory in the destination folder if it doesn't exist
                 $destFilePath = './' . dirname($newFileName);
-               
+
                 if (!is_dir($destFilePath)) {
                     mkdir($destFilePath, 0777, true);
                 }
@@ -73,29 +76,59 @@ class Renamer {
 
         // Modify the content as needed
         $modifiedContent = str_replace($this->defaultName, $this->pluginName, $content);
+        $modifiedContent = str_replace($this->defaultName_, $this->pluginName, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultNamePackage, ucfirst($this->pluginName), $modifiedContent);
 
         // Write the modified content back to the file
         file_put_contents($filePath, $modifiedContent);
     }
 
+    public function deleteDirectory($dir) {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $files = array_diff(scandir($dir), array('.', '..'));
+
+        foreach ($files as $file) {
+            $filePath = $dir . '/' . $file;
+
+            if (is_dir($filePath)) {
+                $this->deleteDirectory($filePath);
+            } else {
+                unlink($filePath);
+            }
+        }
+
+        rmdir($dir);
+    }
+
     public function createZip(array $files) {
         // Create a new ZipArchive instance
         $zip = new ZipArchive();
-        $zipFileName = $this->pluginName . '.zip';
+        $zipFileName = "./downloads/" . $this->pluginName . '.zip';
 
         if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            foreach ($files as $filePath) {
+                // Get the relative path within the destination directory
+                $relativePath = str_replace($this->defaultDir . '/', '', $filePath);
 
-            foreach ($files as $item) {
-                if ($item->isFile()) {
-                    // Add the copied file to the zip archive
-                    $zip->addFile($item, $item);
-                }
+                // Add the file to the zip archive with the relative path
+                $zip->addFile($filePath, $relativePath);
             }
 
             // Save and close the zip archive
             $zip->close();
 
-            echo 'Files renamed and copied to the destination directory, and zip file created successfully.';
+            foreach ($files as $filePath) {
+                unlink($filePath);
+            }
+
+            if (is_dir($this->pluginName)) {
+                $this->deleteDirectory($this->pluginName);
+            }
+
+            echo 'Files renamed and copied to the destination directory, and zip file created successfully. <a href="' . $zipFileName . '">Download</a>';
         } else {
             echo 'Failed to create the zip file.';
         }
