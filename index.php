@@ -3,13 +3,17 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use helpers\Renamer;
+use helpers\Zipper;
 
-$renamer = new Renamer('test');
+$pluginName = 'test234';
+
+$renamer = new Renamer($pluginName);
+$zipper = new Zipper($pluginName);
 
 $files = $renamer->renameFiles();
 
 foreach ($files as $filePath) {
-   $renamer->renameContent($filePath);
+    $renamer->renameContent($filePath);
 }
 
-$renamer->createZip($files);
+$zipper->createZip($files);
