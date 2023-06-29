@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ba10cc5b4f05f273efbd6336ae851e5dc5ac7cda',
+        'reference' => 'ac80248667c7c91e8306dfa070c377a5ddebb6ff',
         'name' => 'rosbier/wp-plugin-starter',
         'dev' => true,
     ),
@@ -115,7 +115,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ba10cc5b4f05f273efbd6336ae851e5dc5ac7cda',
+            'reference' => 'ac80248667c7c91e8306dfa070c377a5ddebb6ff',
             'dev_requirement' => false,
         ),
         'sebastian/cli-parser' => array(
@@ -270,6 +270,21 @@
             'aliases' => array(),
             'reference' => '34a41e998c2183e22995f158c581e7b5e755ab9e',
             'dev_requirement' => true,
+        ),
+        'twbs/bootstrap' => array(
+            'pretty_version' => 'v5.3.0',
+            'version' => '5.3.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twbs/bootstrap',
+            'aliases' => array(),
+            'reference' => '60098ac499d30aa50575b0b7137391c06ef25429',
+            'dev_requirement' => false,
+        ),
+        'twitter/bootstrap' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => 'v5.3.0',
+            ),
         ),
     ),
 );
