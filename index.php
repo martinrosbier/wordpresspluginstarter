@@ -9,7 +9,7 @@
     <body>
 
         <div class="container">
-            <div class="row">
+            <div class="row first-row">
                 <div class="col-md-12">
                     <h1>WordPress Plugin Starter</h1>
 
