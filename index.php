@@ -3,7 +3,7 @@
     <head>
         <title>WordPress Plugin Starter</title>
         <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.css">
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="assets/css/styles.css">
 
     </head>
     <body>
@@ -214,5 +214,6 @@
         </div>
 
         <script src="vendor/twbs/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="assets/js/validation.js"></script>
     </body>
 </html>
