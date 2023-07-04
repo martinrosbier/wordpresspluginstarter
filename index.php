@@ -1,231 +1,116 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>WordPress Plugin Starter</title>
-        <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.css">
-        <link rel="stylesheet" href="assets/css/styles.css">
-
-    </head>
-    <body>
-
-        <div class="container">
-            <div class="row first-row">
-                <div class="col-md-12">
-                    <h1>WordPress Plugin Starter</h1>
-
-                    <p>
-                        This is an open-source project of WordPress, PHP, Bootstrap, and JavaScript.
-                    </p>
-
-                    <p>
-                        Repository: <a href="https://github.com/martinrosbier/wordpresspluginstarter">github.com/martinrosbier/wordpresspluginstarter</a>
-                    </p>
-
-                    <div class="alert alert-info">
-                        <p>
-                            This project is built upon the WordPress Plugin Boilerplate, providing a standardized, organized, and object-oriented foundation for developing high-quality WordPress plugins. It offers the flexibility to customize the boilerplate according to your needs, automatically renaming classes and files for seamless integration into your WordPress plugins folder.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 column">
-                    <?php
+<?php include 'layout/header.php'; ?>
+<div class="col-md-6 column">
+    <?php
 // Retrieve errors and form data from the URL
-                    $errors = isset($_GET['errors']) ? unserialize(urldecode($_GET['errors'])) : [];
-                    $formData = isset($_GET['formData']) ? unserialize(urldecode($_GET['formData'])) : [];
+    $errors = isset($_GET['errors']) ? unserialize(urldecode($_GET['errors'])) : [];
 
+    $formData = isset($_GET['formData']) ? unserialize(urldecode($_GET['formData'])) : [];
 // Display errors if any
-                    if (!empty($errors)) {
-                        foreach ($errors as $error) {
-                            echo "<p>Error: $error</p>";
-                        }
-                    }
-                    ?>
-                    <h4>Form</h4>
-                    <p class="instructions">Please fill out the form below to generate a zip file with your WordPress plugin. Make sure to provide accurate and valid information for each field.</p>
+    if (!empty($errors)) {
+        echo '<div class="alert alert-danger" role="alert">';
+        foreach ($errors as $error) {
+            echo "<p><strong>Error</strong>: $error</p>";
+        }
+        echo '</div>';
+    }
+    ?>
+    <h4>Form</h4>
+    <p class="instructions">Please fill out the form below to generate a zip file with your WordPress plugin. Make sure to provide accurate and valid information for each field.</p>
 
-                    <form action="process.php" method="POST">
-                        <div class="form-group">
-                            <label for="pluginName">Plugin Name</label>
-                            <input type="text" class="form-control" id="pluginName" name="pluginName" required value="<?php echo $formData['pluginName'] ?? ''; ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pluginURL">Plugin URL (HTTPS)</label>
-                            <input type="url" class="form-control" id="pluginURL" name="pluginURL" required value="<?php echo $formData['pluginURL'] ?? ''; ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="authorName">Author Name</label>
-                            <input type="text" class="form-control" id="authorName" name="authorName" required value="<?php echo $formData['authorName'] ?? ''; ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="authorURL">Author URL (HTTPS)</label>
-                            <input type="url" class="form-control" id="authorURL" name="authorURL" required value="<?php echo $formData['authorURL'] ?? ''; ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="shortDescription">Plugin Short Description</label>
-                            <textarea class="form-control" id="shortDescription" name="shortDescription" rows="3" required><?php echo $formData['shortDescription'] ?? ''; ?></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pluginSlug">Plugin Slug</label>
-                            <input type="text" class="form-control" id="pluginSlug" name="pluginSlug" required value="<?php echo $formData['pluginSlug'] ?? ''; ?>">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="authorEmail">Author Email</label>
-                            <input type="email" class="form-control" id="authorEmail" name="authorEmail" required value="<?php echo $formData['authorEmail'] ?? ''; ?>">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Generate Zip File</button>
-                    </form>
-
-                </div>
-
-                <div class="col-md-6 column instructions">
-
-                    <div class="row justify-content-end">
-                        <div class="col-md-8">
-
-                            <h5>Instructions</h5>
-
-                            <div class="form-group">
-                                <label for="pluginName">Plugin Name</label>
-                                <p class="text-muted">Enter a name for your plugin.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="pluginURL">Plugin URL</label>
-                                <p class="text-muted">Provide the URL of your plugin's website. Make sure it starts with "https://" and includes the full address.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="authorName">Author Name</label>
-                                <p class="text-muted">Enter your name as the plugin author.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="authorURL">Author URL</label>
-                                <p class="text-muted">Provide the URL of your personal website or portfolio. Ensure it starts with "https://" and includes the complete address.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="shortDescription">Plugin Short Description</label>
-                                <p class="text-muted">Write a brief description of your plugin's functionality. Please keep it concise and informative.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="pluginSlug">Plugin Slug</label>
-                                <p class="text-muted">Enter a unique identifier for your plugin. The slug should be all lowercase, without spaces or symbols. You can use hyphens to separate words.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="authorEmail">Author Email</label>
-                                <p class="text-muted">Enter your email address. Make sure it is in the correct format (e.g., name@example.com).</p>
-                            </div>
-
-                            <div class="alert alert-info">
-                                <p>
-                                    Once you have filled in all the fields, click the "Generate Zip File" button to generate your plugin's zip file.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-                <div class="col-md-12 column readme">
-                    <h2>Contents</h2>
-
-                    <ul>
-                        <li><code>plugin-name</code> directory: Contains the source code - a fully executable WordPress plugin.</li>
-                    </ul>
-
-                    <h2>Features</h2>
-
-                    <ul>
-                        <li>The Boilerplate is based on the <a href="http://codex.wordpress.org/Plugin_API">Plugin API</a>, <a href="http://codex.wordpress.org/WordPress_Coding_Standards">Coding Standards</a>, and <a href="https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/">Documentation Standards</a>.</li>
-                        <li>All classes, functions, and variables are documented so that you know what you need to change.</li>
-                        <li>The Boilerplate uses a strict file organization scheme that corresponds both to the WordPress Plugin Repository structure and makes it easy to organize the files that compose the plugin.</li>
-                        <li>The project includes a <code>.pot</code> file as a starting point for internationalization.</li>
-                    </ul>
-
-                    <h2>Installation</h2>
-
-                    <p>
-                        The Boilerplate can be installed directly into your plugins folder "as-is". It's safe to activate the plugin at this point. Because the Boilerplate has no real functionality, there will be no menu items, meta boxes, or custom post types added until you write the code.
-                    </p>
-
-                    <h2>License</h2>
-
-                    <p>
-                        The WordPress Plugin Boilerplate is licensed under the GPL v2 or later.
-                    </p>
-
-                    <blockquote>
-                        <p>
-                            This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License, version 2, as published by the Free Software Foundation.
-                        </p>
-                        <p>
-                            This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-                        </p>
-                        <p>
-                            You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-                        </p>
-                    </blockquote>
-
-                    <p>
-                        A copy of the license is included in the root of the plugin’s directory. The file is named <code>LICENSE</code>.
-                    </p>
-
-                    <h3>Includes</h3>
-
-                    <p>
-                        Note that if you include your own classes or third-party libraries, there are three locations in which said files may go:
-                    </p>
-
-                    <ul>
-                        <li><code>plugin-name/includes</code>: Functionality shared between the admin area and the public-facing parts of the site reside.</li>
-                        <li><code>plugin-name/admin</code>: All admin-specific functionality.</li>
-                        <li><code>plugin-name/public</code>: All public-facing functionality.</li>
-                    </ul>
-
-                    <p>
-                        Note that previous versions of the Boilerplate did not include <code>Plugin_Name_Loader</code>, but this class is used to register all filters and actions with WordPress. The example code provided shows how to register your hooks with the Loader class.
-                    </p>
-
-                    <h2>Credits</h2>
-
-                    <p>
-                        The WordPress Plugin Starter was developed and is maintained by <a href="https://www.linkedin.com/in/martinrosbier/">Martin Rosbier</a>.
-                    </p>
-
-                    <p>
-                        The WordPress Plugin Boilerplate was started in 2011 by <a href="http://twitter.com/tommcfarlin/">Tom McFarlin</a> and has since included a number of great contributions. In March of 2015, the project was handed over by Tom to Devin Vinson.
-                    </p>
-
-                    <div class="contact-info">
-                        <h1>Contact Information</h1>
-                        <p>
-                            If you have any inquiries or would like to discuss a project, feel free to reach out to me.
-                        </p>
-                        <ul>
-                            <li>Email: <a href="mailto:info@martinrosbier.com.ar">info@martinrosbier.com.ar</a></li>
-                            <li>LinkedIn: <a href="https://www.linkedin.com/in/martinrosbier/">LinkedIn Profile</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
+    <form action="process.php" method="POST">
+        <div class="form-group">
+            <label for="pluginName">Plugin Name</label>
+            <input type="text" class="form-control" id="pluginName" name="pluginName" required value="<?php echo $formData['pluginName'] ?? ''; ?>">
         </div>
 
-        <script src="vendor/twbs/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="assets/js/validation.js"></script>
-    </body>
-</html>
+        <div class="form-group">
+            <label for="pluginURL">Plugin URL (HTTPS)</label>
+            <input type="url" class="form-control" id="pluginURL" name="pluginURL" required value="<?php echo $formData['pluginURL'] ?? ''; ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="authorName">Author Name</label>
+            <input type="text" class="form-control" id="authorName" name="authorName" required value="<?php echo $formData['authorName'] ?? ''; ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="authorURL">Author URL (HTTPS)</label>
+            <input type="url" class="form-control" id="authorURL" name="authorURL" required value="<?php echo $formData['authorURL'] ?? ''; ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="shortDescription">Plugin Short Description</label>
+            <textarea class="form-control" id="shortDescription" name="shortDescription" rows="3" required><?php echo $formData['shortDescription'] ?? ''; ?></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="pluginSlug">Plugin Slug</label>
+            <input type="text" class="form-control" id="pluginSlug" name="pluginSlug" required value="<?php echo $formData['pluginSlug'] ?? ''; ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="authorEmail">Author Email</label>
+            <input type="email" class="form-control" id="authorEmail" name="authorEmail" required value="<?php echo $formData['authorEmail'] ?? ''; ?>">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Generate Zip File</button>
+    </form>
+
+</div>
+
+<div class="col-md-6 column instructions">
+
+    <div class="row justify-content-end">
+        <div class="col-md-8">
+
+            <h5>Instructions</h5>
+
+            <div class="form-group">
+                <label for="pluginName">Plugin Name</label>
+                <p class="text-muted">Enter a name for your plugin.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="pluginURL">Plugin URL</label>
+                <p class="text-muted">Provide the URL of your plugin's website. Make sure it starts with "https://" and includes the full address.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="authorName">Author Name</label>
+                <p class="text-muted">Enter your name as the plugin author.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="authorURL">Author URL</label>
+                <p class="text-muted">Provide the URL of your personal website or portfolio. Ensure it starts with "https://" and includes the complete address.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="shortDescription">Plugin Short Description</label>
+                <p class="text-muted">Write a brief description of your plugin's functionality. Please keep it concise and informative.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="pluginSlug">Plugin Slug</label>
+                <p class="text-muted">Enter a unique identifier for your plugin. The slug should be all lowercase, without spaces or symbols. You can use hyphens to separate words.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="authorEmail">Author Email</label>
+                <p class="text-muted">Enter your email address. Make sure it is in the correct format (e.g., name@example.com).</p>
+            </div>
+
+            <div class="alert alert-info">
+                <p>
+                    Once you have filled in all the fields, click the "Generate Zip File" button to generate your plugin's zip file.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<?php
+include './layout/footer.php';

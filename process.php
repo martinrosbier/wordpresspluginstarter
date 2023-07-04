@@ -4,6 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use helpers\Renamer;
 use helpers\Zipper;
+use helpers\Sanitizer;
 
 // Initialize the errors array
 $errors = [];
@@ -11,16 +12,15 @@ $errors = [];
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Retrieve the form data
-    $pluginName = sanitizeInput($_POST["pluginName"]);
-    $pluginURL = sanitizeInput($_POST["pluginURL"]);
-    $authorName = sanitizeInput($_POST["authorName"]);
-    $authorURL = sanitizeInput($_POST["authorURL"]);
-    $shortDescription = sanitizeInput($_POST["shortDescription"]);
-    $pluginSlug = sanitizeInput($_POST["pluginSlug"]);
-    $authorEmail = sanitizeInput($_POST["authorEmail"]);
+    $pluginName = Sanitizer::sanitize($_POST["pluginName"]);
+    $pluginURL = Sanitizer::sanitize($_POST["pluginURL"]);
+    $authorName = Sanitizer::sanitize($_POST["authorName"]);
+    $authorURL = Sanitizer::sanitize($_POST["authorURL"]);
+    $shortDescription = Sanitizer::sanitize($_POST["shortDescription"]);
+    $pluginSlug = Sanitizer::sanitize($_POST["pluginSlug"]);
+    $authorEmail = Sanitizer::sanitize($_POST["authorEmail"]);
 
     // Validate the form data
-
     // Validate Plugin Name: Avoid spaces or symbols
     if (!preg_match('/^[a-zA-Z0-9\s\-]+$/', $pluginName)) {
         $errors["pluginName"] = "Plugin Name should not contain spaces or symbols.";
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // If there are no errors, process the form data
     if (empty($errors)) {
-        
+
         $renamer = new Renamer($pluginSlug, $pluginURL, $authorName, $authorURL, $shortDescription, $authorEmail, $pluginName);
         $zipper = new Zipper($pluginSlug);
 
@@ -57,24 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         foreach ($files as $filePath) {
             $renamer->renameContent($filePath);
         }
-
-        $zipper->createZip($files);
-
-
-        // Redirect to a success page
-        header("Location: success.php");
-        exit();
-    }
+        if ($zipper->createZip($files)) {
+            // Redirect to a success page
+            header("Location: success.php?fn=". $pluginSlug);
+        } 
+    } else {
+            header("Location: index.php?errors=" . urlencode(serialize($errors)) . "&formData=" . urlencode(serialize($_POST)));
+            
+        }
 }
-
-// Function to sanitize input data
-function sanitizeInput($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-// Redirect to the index page with errors and form data
-header("Location: index.php?errors=" . urlencode(serialize($errors)) . "&formData=" . urlencode(serialize($_POST)));
-exit();

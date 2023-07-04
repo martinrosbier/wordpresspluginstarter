@@ -46,6 +46,7 @@ class Zipper {
         // Create a new ZipArchive instance
         $zip = new ZipArchive();
         $zipFileName = "./downloads/" . $this->pluginName . '.zip';
+        $result = false;
 
         if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             foreach ($files as $filePath) {
@@ -67,10 +68,9 @@ class Zipper {
                 $this->deleteDirectory($this->pluginName);
             }
 
-            echo 'Files renamed and copied to the destination directory, and zip file created successfully. <a href="' . $zipFileName . '">Download</a>';
-        } else {
-            echo 'Failed to create the zip file.';
+            $result = true;
         }
+        return $result;
     }
 
 }
