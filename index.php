@@ -31,48 +31,60 @@
 
             <div class="row">
                 <div class="col-md-6 column">
+                    <?php
+// Retrieve errors and form data from the URL
+                    $errors = isset($_GET['errors']) ? unserialize(urldecode($_GET['errors'])) : [];
+                    $formData = isset($_GET['formData']) ? unserialize(urldecode($_GET['formData'])) : [];
 
+// Display errors if any
+                    if (!empty($errors)) {
+                        foreach ($errors as $error) {
+                            echo "<p>Error: $error</p>";
+                        }
+                    }
+                    ?>
                     <h4>Form</h4>
                     <p class="instructions">Please fill out the form below to generate a zip file with your WordPress plugin. Make sure to provide accurate and valid information for each field.</p>
 
-                    <form action="process-form.php" method="POST">
+                    <form action="process.php" method="POST">
                         <div class="form-group">
                             <label for="pluginName">Plugin Name</label>
-                            <input type="text" class="form-control" id="pluginName" name="pluginName" required>
+                            <input type="text" class="form-control" id="pluginName" name="pluginName" required value="<?php echo $formData['pluginName'] ?? ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="pluginURL">Plugin URL (HTTPS)</label>
-                            <input type="url" class="form-control" id="pluginURL" name="pluginURL" required>
+                            <input type="url" class="form-control" id="pluginURL" name="pluginURL" required value="<?php echo $formData['pluginURL'] ?? ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="authorName">Author Name</label>
-                            <input type="text" class="form-control" id="authorName" name="authorName" required>
+                            <input type="text" class="form-control" id="authorName" name="authorName" required value="<?php echo $formData['authorName'] ?? ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="authorURL">Author URL (HTTPS)</label>
-                            <input type="url" class="form-control" id="authorURL" name="authorURL" required>
+                            <input type="url" class="form-control" id="authorURL" name="authorURL" required value="<?php echo $formData['authorURL'] ?? ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="shortDescription">Plugin Short Description</label>
-                            <textarea class="form-control" id="shortDescription" name="shortDescription" rows="3" required></textarea>
+                            <textarea class="form-control" id="shortDescription" name="shortDescription" rows="3" required><?php echo $formData['shortDescription'] ?? ''; ?></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="pluginSlug">Plugin Slug</label>
-                            <input type="text" class="form-control" id="pluginSlug" name="pluginSlug" required>
+                            <input type="text" class="form-control" id="pluginSlug" name="pluginSlug" required value="<?php echo $formData['pluginSlug'] ?? ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="authorEmail">Author Email</label>
-                            <input type="email" class="form-control" id="authorEmail" name="authorEmail" required>
+                            <input type="email" class="form-control" id="authorEmail" name="authorEmail" required value="<?php echo $formData['authorEmail'] ?? ''; ?>">
                         </div>
 
                         <button type="submit" class="btn btn-primary">Generate Zip File</button>
                     </form>
+
                 </div>
 
                 <div class="col-md-6 column instructions">
@@ -84,7 +96,7 @@
 
                             <div class="form-group">
                                 <label for="pluginName">Plugin Name</label>
-                                <p class="text-muted">Enter a name for your plugin. Avoid using spaces or symbols in the name.</p>
+                                <p class="text-muted">Enter a name for your plugin.</p>
                             </div>
 
                             <div class="form-group">

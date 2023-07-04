@@ -14,17 +14,40 @@ use config\Constants;
  */
 class Renamer {
 
+    private $pluginSlug;
+    private $pluginURL;
+    private $authorName;
+    private $authorURL;
+    private $shortDescription;
+    private $authorEmail;
     private $pluginName;
-    private $defaultName;
+    private $defaultSlug;
     private $defaultDir;
+    private $defaultName;
+    private $defaultNameUpper;
 
-    public function __construct($pluginName) {
+    public function __construct($pluginSlug, $pluginURL, $authorName, $authorURL, $shortDescription, $authorEmail, $pluginName) {
+        $this->pluginSlug = $pluginSlug;
+        $this->pluginURL = $pluginURL;
+        $this->authorName = $authorName;
+        $this->authorURL = $authorURL;
+        $this->shortDescription = $shortDescription;
+        $this->authorEmail = $authorEmail;
         $this->pluginName = $pluginName;
-        $this->defaultName = Constants::DEFAULT_NAME;
-        $this->defaultName_ = Constants::DEFAULT_NAME_;
-        $this->defaultNamePackage = Constants::DEFAULT_NAME_PACKAGE;
+
+        $this->defaultSlug = Constants::DEFAULT_SLUG;
+        $this->defaultSlug_ = Constants::DEFAULT_SLUG_;
+        $this->defaultSlugPackage = Constants::DEFAULT_SLUG_PACKAGE;
 
         $this->defaultDir = Constants::DEFAULT_DIR;
+
+        $this->defaultURL = Constants::DEFAULT_URL;
+        $this->defaultAuthorName = Constants::DEFAULT_AUTHOR_NAME;
+        $this->defaultAuthorURL = Constants::DEFAULT_AUTHOR_URL;
+        $this->defaultDescription = Constants::DEFAULT_DESCRIPTION;
+        $this->defaultEmail = Constants::DEFAULT_EMAIL;
+        $this->defaultName = Constants::DEFAULT_NAME;
+        $this->defaultNameUpper = Constants::DEFAULT_NAME_UPPER;
     }
 
     public function renameFiles() {
@@ -41,8 +64,8 @@ class Renamer {
                 // Get the relative path of the file
                 $relativePath = $iterator->getSubPathname();
 
-                // Replace "plugin_name" with $pluginName
-                $newFileName = str_replace("src/" . $this->defaultName, $this->pluginName, $this->defaultDir) . "/" . str_replace($this->defaultName, $this->pluginName, str_replace("\\", "/", $relativePath));
+                // Replace "plugin_name" with $pluginSlug
+                $newFileName = str_replace("src/" . $this->defaultSlug, $this->pluginSlug, $this->defaultDir) . "/" . str_replace($this->defaultSlug, $this->pluginSlug, str_replace("\\", "/", $relativePath));
 
                 array_push($files, $newFileName);
 
@@ -75,9 +98,17 @@ class Renamer {
         $content = file_get_contents($filePath);
 
         // Modify the content as needed
-        $modifiedContent = str_replace($this->defaultName, $this->pluginName, $content);
-        $modifiedContent = str_replace($this->defaultName_, $this->pluginName, $modifiedContent);
-        $modifiedContent = str_replace($this->defaultNamePackage, ucfirst($this->pluginName), $modifiedContent);
+        $modifiedContent = str_replace($this->defaultSlug, $this->pluginSlug, $content);
+        $modifiedContent = str_replace($this->defaultSlug_, $this->pluginSlug, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultSlugPackage, ucfirst($this->pluginSlug), $modifiedContent);
+
+        $modifiedContent = str_replace($this->defaultURL, $this->pluginURL, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultAuthorName, $this->authorName, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultAuthorURL, $this->authorURL, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultDescription, $this->shortDescription, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultEmail, $this->authorEmail, $modifiedContent);
+        $modifiedContent = str_replace($this->defaultNameUpper, strtoupper($this->pluginSlug), $modifiedContent);
+        $modifiedContent = str_replace($this->defaultName, $this->pluginName, $modifiedContent);
 
         // Write the modified content back to the file
         file_put_contents($filePath, $modifiedContent);
