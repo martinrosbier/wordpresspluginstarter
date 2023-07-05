@@ -4,6 +4,7 @@
         <title>WordPress Plugin Starter</title>
         <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="icon" href="assets/img/favicon.ico?2" sizes="32x32" />
 
     </head>
     <body>
