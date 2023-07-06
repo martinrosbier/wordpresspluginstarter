@@ -27,3 +27,7 @@ input, textarea {
 .readme {
     margin: 84px 0;    
 }
+
+.container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+    --bs-gutter-x: 3rem;
+}

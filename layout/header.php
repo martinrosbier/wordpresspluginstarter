@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Martin Rosbier | Full-stack Developer | WordPress Plugin Starter">    
         <title>WordPress Plugin Starter</title>
         <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" href="assets/img/favicon.ico?2" sizes="32x32" />
-
-    </head>
+    </head>    
+    
     <body>
 
         <div class="container">
