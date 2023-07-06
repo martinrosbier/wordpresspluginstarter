@@ -1,6 +1,6 @@
 # WordPress Plugin Starter
 
-The WordPress Plugin Customizer is a powerful tool designed to simplify the process of creating custom WordPress plugins.
+The WordPress Plugin Starter is a powerful tool designed to simplify the process of creating custom WordPress plugins.
 With this project, you can generate a blank plugin file customized with your plugin's name, description, author information, and other essential details.
 This customizable plugin file serves as a starting point for developing unique WordPress plugins tailored to your specific needs.
 

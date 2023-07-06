@@ -23,12 +23,13 @@
                 </p>
 
                 <p>
-                    Repository: <a href="https://github.com/martinrosbier/wordpresspluginstarter">github.com/martinrosbier/wordpresspluginstarter</a>
+                    Repository: <a
+                        href="https://github.com/martinrosbier/wordpresspluginstarter">github.com/martinrosbier/wordpresspluginstarter</a>
                 </p>
 
                 <div class="alert alert-info">
                     <p>
-                        The WordPress Plugin Customizer is a powerful tool designed to simplify the process of creating
+                        The WordPress Plugin Starter is a powerful tool designed to simplify the process of creating
                         custom WordPress plugins.
                         With this project, you can generate a blank plugin file customized with your plugin's name,
                         description, author information, and other essential details.
