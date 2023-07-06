@@ -1,5 +1,9 @@
 # WordPress Plugin Starter
 
+The WordPress Plugin Customizer is a powerful tool designed to simplify the process of creating custom WordPress plugins.
+With this project, you can generate a blank plugin file customized with your plugin's name, description, author information, and other essential details.
+This customizable plugin file serves as a starting point for developing unique WordPress plugins tailored to your specific needs.
+
 This project is built upon the WordPress Plugin Boilerplate (https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/tree/master), providing a standardized, organized, and object-oriented foundation for developing high-quality WordPress plugins. It offers the flexibility to customize the boilerplate according to your needs, automatically renaming classes and files for seamless integration into your WordPress plugins folder.
 
 ## Contents
