@@ -59,10 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         if ($zipper->createZip($files)) {
             // Redirect to a success page
-            header("Location: success.php?fn=". $pluginSlug);
-        } 
-    } else {
-            header("Location: index.php?errors=" . urlencode(serialize($errors)) . "&formData=" . urlencode(serialize($_POST)));
-            
+            header("Location: success.php?fn=" . $pluginSlug);
         }
+    } else {
+        header("Location: index.php?errors=" . urlencode(serialize($errors)) . "&formData=" . urlencode(serialize($_POST)));
+    }
 }

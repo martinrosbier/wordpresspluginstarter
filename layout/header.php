@@ -23,8 +23,7 @@
                 </p>
 
                 <p>
-                    Repository: <a
-                        href="https://github.com/martinrosbier/wordpresspluginstarter">github.com/martinrosbier/wordpresspluginstarter</a>
+                    Repository: <a href="https://github.com/martinrosbier/wordpresspluginstarter">github.com/martinrosbier/wordpresspluginstarter</a>
                 </p>
 
                 <div class="alert alert-info">
